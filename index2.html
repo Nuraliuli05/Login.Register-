@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register Form in HTML and CSS</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Login Form -->
+        <form action="" id="login-form" onsubmit="return login(event)">
+            <h1>Login</h1>
+            <div class="input-box">
+                <input type="text" id="username" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" placeholder="Password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+
+            <div class="remember-forgot">
+                <label><input type="checkbox"> Remember me</label>
+                <a href="#" onclick="showForgotPassword()">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+
+            <div class="register-link">
+                <p>Don't have an account? <a href="#" onclick="showRegister()">Register</a></p>
+            </div>
+            <p id="error-msg" style="color:red; display:none;">Incorrect username or password</p>
+        </form>
+
+        <!-- Registration Form -->
+        <form action="" id="register-form" style="display:none;" onsubmit="return register(event)">
+            <h1>Register</h1>
+            <div class="input-box">
+                <input type="text" id="reg-username" placeholder="Username" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="email" id="reg-email" placeholder="Email" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="reg-password" placeholder="Password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="reg-confirm-password" placeholder="Confirm Password" required>
+                <i class='bx bxs-lock-alt'></i>
+            </div>
+
+            <button type="submit" class="btn">Register</button>
+
+            <div class="login-link">
+                <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            </div>
+        </form>
+
+        <!-- Forgot Password Form -->
+        <form action="" id="forgot-password-form" style="display:none;">
+            <h1>Forgot Password</h1>
+            <div class="input-box">
+                <input type="email" placeholder="Enter your email" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+
+            <button type="submit" class="btn">Reset Password</button>
+
+            <div class="login-link">
+                <p>Remembered your password? <a href="#" onclick="showLogin()">Login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let users = []; // Users array to store registered users
+
+        function showRegister() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'block';
+            document.getElementById('forgot-password-form').style.display = 'none';
+        }
+
+        function showLogin() {
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('forgot-password-form').style.display = 'none';
+            document.getElementById('login-form').style.display = 'block';
+            document.getElementById('error-msg').style.display = 'none'; // Hide error message on switching forms
+        }
+
+        function showForgotPassword() {
+            document.getElementById('login-form').style.display = 'none';
+            document.getElementById('register-form').style.display = 'none';
+            document.getElementById('forgot-password-form').style.display = 'block';
+        }
+
+        // Register a new user
+        function register(event) {
+            event.preventDefault(); // Prevent form submission
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+            if (password === confirmPassword) {
+                users.push({ username, password }); // Store user credentials
+                alert('Registration successful! Now you can log in.');
+                showLogin(); // Switch to login form
+            } else {
+                alert("Passwords do not match!");
+            }
+        }
+
+        // Login validation
+        function login(event) {
+            event.preventDefault(); // Prevent form submission
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const user = users.find(u => u.username === username && u.password === password); // Check user credentials
+            if (user) {
+                alert("Login successful!"); // Redirect to the dashboard or user area
+                // For example:
+                // window.location.href = 'dashboard.html';
+            } else {
+                // Show error message
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+
+</html>
